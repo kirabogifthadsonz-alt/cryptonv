@@ -26,8 +26,8 @@ let cnRewards=null;let cnBoard={tasks:[],campaigns:[]};
 function cnHomeRow(){const r=cnRewards;if(!r)return'';const coins=Number(r.balance)||0;const usd=cnValueUsd(coins,r.price_usd||0.48);return `<div class="wallet-cn-row"><img src="${CN_COIN_URL}" alt="CN coin"><strong>${coins.toLocaleString('en-US')} CN</strong><span>${formatMoney(usd)} USD · ${localAmount(usd)}</span></div>`;}
 let cnError='';
 
-const CN_ICON_URL="/__l5e/assets-v1/4b6118f0-2617-4fa7-b370-b8319ecf9885/cn-icon.png";
-const CN_COIN_URL="/__l5e/assets-v1/ec0c797c-39b0-4aca-b54b-32e3ad4ae966/cn-coin.png";
+const CN_ICON_URL="/__l5e/assets-v1/8fdfce49-a74f-43a0-b21b-8df7d757629c/cn-logo.jpg";
+const CN_COIN_URL="/__l5e/assets-v1/61788546-ad9a-405f-ae7a-adaaed495054/cn-coin.jpg";
 function cnValueUsd(coins,price){return Number(coins)*Number(price);}
 function cnWithdrawalReady(status){return status?.tge_completed===true&&status?.cex_listed===true;}
 async function loadCNRewards(){const sb=getSupabase();cnRewards=null;cnError='';if(!sb||!authState.user)return;try{const [{data,error},board]=await Promise.all([sb.rpc('my_cn_rewards'),sb.rpc('cn_board')]);if(error)throw error;cnRewards=data;cnBoard=board.data||{tasks:[],campaigns:[]};}catch(e){cnError='CN rewards could not be loaded. Please try again.';console.warn('CN rewards load failed',e);}}
@@ -329,7 +329,7 @@ if(a==='ai-invite-copy'){navigator.clipboard?.writeText(document.getElementById(
 let cnShare=null,cnSharePopupShown=false,ugxRate=null;
 async function loadShareStatus(){const sb=getSupabase();if(!sb||!authState.user)return;const [{data},fx]=await Promise.all([sb.rpc('cn_share_status'),ugxRate?Promise.resolve(null):sb.from('fx_rates').select('units_per_usd').eq('currency','UGX').maybeSingle()]);cnShare=data||null;if(fx?.data)ugxRate=Number(fx.data.units_per_usd);}
 function shareModalBody(){const s=cnShare||{shares:0,target:10,reward:2000};const usd=s.reward*(cnRewards?.price_usd||0.48);const ugx=ugxRate?new Intl.NumberFormat('en-UG').format(Math.round(usd*ugxRate)):'—';const n=Math.min(s.shares,s.target);const pct=Math.round(n/s.target*100);
-return `<div class="share-promo"><img src="/public/assets/cn-coin.png" alt="CN coin" class="share-promo-coin" onerror="this.style.display='none'"><h3>Unlock ${s.reward.toLocaleString()} CN</h3><p class="share-promo-value">Worth <strong>$${usd.toFixed(2)}</strong> · <strong>UGX ${ugx}</strong></p><p>Share CRYPTONVA with <strong>${s.target} WhatsApp friends or groups</strong> and the coins are added to your CN balance automatically.</p><div class="share-promo-bar"><span style="width:${pct}%"></span></div><p class="helper">${s.claimed?'✓ Reward received — thank you for sharing!':`${n}/${s.target} shares · ${s.target-n} to go`}</p></div>`;}
+return `<div class="share-promo"><img src="${CN_COIN_URL}" alt="CN coin" class="share-promo-coin" onerror="this.style.display='none'"><h3>Unlock ${s.reward.toLocaleString()} CN</h3><p class="share-promo-value">Worth <strong>$${usd.toFixed(2)}</strong> · <strong>UGX ${ugx}</strong></p><p>Share CRYPTONVA with <strong>${s.target} WhatsApp friends or groups</strong> and the coins are added to your CN balance automatically.</p><div class="share-promo-bar"><span style="width:${pct}%"></span></div><p class="helper">${s.claimed?'✓ Reward received — thank you for sharing!':`${n}/${s.target} shares · ${s.target-n} to go`}</p></div>`;}
 function showSharePromo(){showModal('Share & earn CN',shareModalBody(),cnShare?.claimed?`<button class="btn" data-action="close-modal">Close</button>`:`<button class="btn" data-action="close-modal">Later</button><button class="btn whatsapp-btn" data-action="wa-share">Share on WhatsApp</button>`);}
 const _loadCNOrig=loadCNRewards;
 loadCNRewards=async function(){await _loadCNOrig();try{await loadShareStatus();}catch(e){}};
