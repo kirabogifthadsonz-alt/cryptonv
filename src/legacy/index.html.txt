@@ -27,7 +27,7 @@
         <nav class="rail-nav" aria-label="Primary navigation">
           <button class="nav-item active" data-nav="home"><span class="nav-icon">⌂</span><span>Home</span></button>
           <button class="nav-item" data-nav="earn"><span class="nav-icon">↗</span><span>Earn</span></button>
-          <button class="nav-item" data-nav="cn"><span class="nav-icon"><img class="cn-nav-image" src="/__l5e/assets-v1/8fdfce49-a74f-43a0-b21b-8df7d757629c/cn-logo.jpg" alt=""></span><span>CN</span></button>
+          <button class="nav-item" data-nav="cn"><span class="nav-icon"><img class="cn-nav-image" src="/public/assets/cn-logo.jpg" alt=""></span><span>CN</span></button>
           <button class="nav-item" data-nav="income"><span class="nav-icon">⌁</span><span>Income</span></button>
           <button class="nav-item" data-nav="profile"><span class="nav-icon">◉</span><span>Profile</span></button>
         </nav>
@@ -40,11 +40,11 @@
     <nav class="bottom-nav" aria-label="Mobile navigation">
       <button class="mobile-nav-item active" data-nav="home"><span class="nav-icon">⌂</span><span>Home</span></button>
       <button class="mobile-nav-item" data-nav="earn"><span class="nav-icon">↗</span><span>Earn</span></button>
-      <button class="mobile-nav-item" data-nav="cn"><span class="nav-icon"><img class="cn-nav-image" src="/__l5e/assets-v1/8fdfce49-a74f-43a0-b21b-8df7d757629c/cn-logo.jpg" alt=""></span><span>CN</span></button>
+      <button class="mobile-nav-item" data-nav="cn"><span class="nav-icon"><img class="cn-nav-image" src="/public/assets/cn-logo.jpg" alt=""></span><span>CN</span></button>
       <button class="mobile-nav-item" data-nav="income"><span class="nav-icon">⌁</span><span>Income</span></button>
       <button class="mobile-nav-item" data-nav="profile"><span class="nav-icon">◉</span><span>Profile</span></button>
     </nav>
     <div id="modal-root"></div>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script><script src="/app.js?v=20261019-cn-images" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script><script src="/app.js?v=20261019-cn-local" defer></script>
   </body>
 </html>

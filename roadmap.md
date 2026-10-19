@@ -1,6 +1,7 @@
 - [x] Switch backend to Lovable Cloud (schema, auth, sign-up without email confirmation)
 - [x] Remove demo/prototype labels, risk notices and "illustrative plan" disclaimers from the UI
 - [x] Make ceo@hadzgroup.cc admin
+- [ ] Confirm the newly signed-up ceo@hadzgroup.cc account has admin access
 - [ ] Bring over existing users/data from the old database (needs export from Manus)
 - [x] Real deposits via Marz Pay (mobile money + card)
 - [x] Withdrawals paid out via Marz after admin approval (min set in admin)

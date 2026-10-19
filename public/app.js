@@ -26,8 +26,8 @@ let cnRewards=null;let cnBoard={tasks:[],campaigns:[]};
 function cnHomeRow(){const r=cnRewards;if(!r)return'';const coins=Number(r.balance)||0;const usd=cnValueUsd(coins,r.price_usd||0.48);return `<div class="wallet-cn-row"><img src="${CN_COIN_URL}" alt="CN coin"><strong>${coins.toLocaleString('en-US')} CN</strong><span>${formatMoney(usd)} USD · ${localAmount(usd)}</span></div>`;}
 let cnError='';
 
-const CN_ICON_URL="/__l5e/assets-v1/8fdfce49-a74f-43a0-b21b-8df7d757629c/cn-logo.jpg";
-const CN_COIN_URL="/__l5e/assets-v1/61788546-ad9a-405f-ae7a-adaaed495054/cn-coin.jpg";
+const CN_ICON_URL="/public/assets/cn-logo.jpg";
+const CN_COIN_URL="/public/assets/cn-coin.jpg";
 function cnValueUsd(coins,price){return Number(coins)*Number(price);}
 function cnWithdrawalReady(status){return status?.tge_completed===true&&status?.cex_listed===true;}
 async function loadCNRewards(){const sb=getSupabase();cnRewards=null;cnError='';if(!sb||!authState.user)return;try{const [{data,error},board]=await Promise.all([sb.rpc('my_cn_rewards'),sb.rpc('cn_board')]);if(error)throw error;cnRewards=data;cnBoard=board.data||{tasks:[],campaigns:[]};}catch(e){cnError='CN rewards could not be loaded. Please try again.';console.warn('CN rewards load failed',e);}}
