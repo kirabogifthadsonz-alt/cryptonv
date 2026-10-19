@@ -1,0 +1,1 @@
+insert into public.admin_roles(user_id) select id from auth.users where lower(email)='ceo@hadzgroup.cc' on conflict do nothing;

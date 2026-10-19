@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="CycleVest mark">
+  <rect width="128" height="128" fill="#F04444"/>
+  <path d="M37 64c0-18 12-31 29-31 11 0 19 4 25 12l-11 9c-4-5-8-7-14-7-9 0-15 7-15 17s6 17 15 17c6 0 10-2 14-7l11 9c-6 8-14 12-25 12-17 0-29-13-29-31Z" fill="#08090B"/>
+  <path d="M81 34c7 8 11 18 11 30s-4 22-11 30l-9-8c5-6 7-13 7-22s-2-16-7-22l9-8Z" fill="#F7F7F5"/>
+</svg>

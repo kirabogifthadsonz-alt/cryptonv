@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#08050d" />
+    <meta name="description" content="CRYPTONVA — invest in the digital future. Investment plans, wallet activity and CN rewards." />
+    <link rel="icon" href="/public/cryptonva-symbol.png" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/app.css?v=20261008-cn" />
+    <meta property="og:title" content="CRYPTONVA — Invest in the digital future" />
+    <meta property="og:description" content="Investment plans, wallet activity and CN rewards." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <title>CRYPTONVA — Invest in the digital future</title>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="desktop-rail">
+        <a class="brand" href="#home" data-nav="home" aria-label="CRYPTONVA home">
+          <img src="/public/cryptonva-symbol.png" alt="" class="brand-mark" />
+          <span>CRYPTON<span>VA</span></span>
+        </a>
+        <div class="rail-label">Workspace</div>
+        <nav class="rail-nav" aria-label="Primary navigation">
+          <button class="nav-item active" data-nav="home"><span class="nav-icon">⌂</span><span>Home</span></button>
+          <button class="nav-item" data-nav="earn"><span class="nav-icon">↗</span><span>Earn</span></button>
+          <button class="nav-item" data-nav="cn"><span class="nav-icon"><img class="cn-nav-image" src="/__l5e/assets-v1/4b6118f0-2617-4fa7-b370-b8319ecf9885/cn-icon.png" alt=""></span><span>CN</span></button>
+          <button class="nav-item" data-nav="income"><span class="nav-icon">⌁</span><span>Income</span></button>
+          <button class="nav-item" data-nav="profile"><span class="nav-icon">◉</span><span>Profile</span></button>
+        </nav>
+        <div class="rail-footnote"><span class="live-dot"></span> Live</div>
+      </aside>
+      <main class="main-content">
+        <div id="app" aria-live="polite"></div>
+      </main>
+    </div>
+    <nav class="bottom-nav" aria-label="Mobile navigation">
+      <button class="mobile-nav-item active" data-nav="home"><span class="nav-icon">⌂</span><span>Home</span></button>
+      <button class="mobile-nav-item" data-nav="earn"><span class="nav-icon">↗</span><span>Earn</span></button>
+      <button class="mobile-nav-item" data-nav="cn"><span class="nav-icon"><img class="cn-nav-image" src="/__l5e/assets-v1/4b6118f0-2617-4fa7-b370-b8319ecf9885/cn-icon.png" alt=""></span><span>CN</span></button>
+      <button class="mobile-nav-item" data-nav="income"><span class="nav-icon">⌁</span><span>Income</span></button>
+      <button class="mobile-nav-item" data-nav="profile"><span class="nav-icon">◉</span><span>Profile</span></button>
+    </nav>
+    <div id="modal-root"></div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script><script src="/app.js?v=20261008-cn" defer></script>
+  </body>
+</html>
