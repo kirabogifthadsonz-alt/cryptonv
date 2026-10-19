@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
-import { MARZ_COUNTRIES, getUserFromRequest, json, marzPost, toE164 } from "@/lib/marz.server";
+import { MARZ_COUNTRIES, MarzRequestError, getUserFromRequest, json, marzPost, toE164 } from "@/lib/marz.server";
 
 // Admin approves a withdrawal: money is sent through Marz right away.
 export const Route = createFileRoute("/api/public/payments/payout")({
@@ -35,10 +35,11 @@ export const Route = createFileRoute("/api/public/payments/payout")({
         const local = c.currency === "USD" ? usd : Math.floor(usd * Number(fx.units_per_usd));
 
         const id = crypto.randomUUID();
-        await supabaseAdmin.from("payment_transactions").insert({
+        const { error: insertError } = await supabaseAdmin.from("payment_transactions").insert({
           id, user_id: w.user_id, kind: "withdrawal", method: "mobile_money", country, currency: c.currency,
           local_amount: local, usd_cents: w.amount_cents, phone, status: "processing", withdrawal_request_id: w.id,
         });
+        if (insertError) return fail("Could not record payout. No transfer was started.");
         await supabaseAdmin.from("audit_log").insert({ actor_id: user.id, action: "withdrawal_approved_payout", target_user_id: w.user_id, target_reference: w.id });
         try {
           const body: Record<string, unknown> = {
@@ -47,9 +48,14 @@ export const Route = createFileRoute("/api/public/payments/payout")({
           };
           if (c.currency === "USD") body["currency"] = "USD";
           const res = await marzPost("/send-money", body);
-          await supabaseAdmin.from("payment_transactions").update({ marz_uuid: res?.data?.transaction?.uuid ?? null }).eq("id", id);
+          const { error: saveError } = await supabaseAdmin.from("payment_transactions").update({ marz_uuid: res?.data?.transaction?.uuid ?? res?.transaction?.uuid }).eq("id", id);
+          if (saveError) throw new MarzRequestError("Payout confirmation is pending. Do not approve it again.", true);
           return json({ ok: true, payment_id: id, local_amount: local, currency: c.currency });
         } catch (e) {
+          if (e instanceof MarzRequestError && e.uncertain) {
+            // Keep funds reserved until the provider independently confirms the outcome.
+            return json({ error: "Payout confirmation is pending. Do not approve it again.", payment_id: id, status: "processing" }, 503);
+          }
           await supabaseAdmin.from("payment_transactions").update({ status: "failed" }).eq("id", id);
           return fail((e as Error).message);
         }

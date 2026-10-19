@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
-import { MARZ_COUNTRIES, getUserFromRequest, json, marzPost, toE164 } from "@/lib/marz.server";
+import { MARZ_COUNTRIES, MarzRequestError, getUserFromRequest, json, marzPost, toE164 } from "@/lib/marz.server";
 
 const schema = z.object({
   method: z.enum(["mobile_money", "card"]),
@@ -47,11 +47,16 @@ export const Route = createFileRoute("/api/public/payments/deposit")({
           if (c.currency === "USD") body["currency"] = "USD";
           if (method === "mobile_money") body["phone_number"] = phoneE164;
           const res = await marzPost("/collect-money", body);
-          const marzUuid = res?.data?.transaction?.uuid ?? null;
+          const marzUuid = res?.data?.transaction?.uuid ?? res?.transaction?.uuid;
           const redirect = res?.data?.redirect_url ?? null;
-          await supabaseAdmin.from("payment_transactions").update({ marz_uuid: marzUuid, redirect_url: redirect, status: "processing" }).eq("id", id);
+          const { error: saveError } = await supabaseAdmin.from("payment_transactions").update({ marz_uuid: marzUuid, redirect_url: redirect, status: "processing" }).eq("id", id);
+          if (saveError) throw new MarzRequestError("Payment confirmation is pending. Do not submit it again yet.", true);
           return json({ id, redirect_url: redirect, currency: c.currency, local_amount: local, usd_cents: usdCents });
         } catch (e) {
+          if (e instanceof MarzRequestError && e.uncertain) {
+            // Provider may already have charged: preserve this reference for reconciliation.
+            return json({ error: e.message, id, status: "processing" }, 503);
+          }
           console.error("Deposit failed at payment provider:", (e as Error).message);
           await supabaseAdmin.from("payment_transactions").update({ status: "failed" }).eq("id", id);
           return json({ error: (e as Error).message }, 502);
