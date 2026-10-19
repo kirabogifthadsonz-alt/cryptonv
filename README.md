@@ -53,9 +53,9 @@ included Nitro Vercel preset and `vercel.json` when importing this repository.
 - `/api/public/*` is forwarded by Vercel to this project's stable **published**
   Lovable URL. Bearer authorization remains required by the payment handlers.
   Marz callbacks return to that hosted service, not a temporary Vercel preview.
-- `/__l5e/assets-v1/*` is forwarded to the existing Lovable asset host so the supplied
-  CN artwork loads without changing the screens. Other logos remain local public
-  files. Do not delete the project/assets while Vercel uses them.
+- CN artwork and the home logo are local public files included in Git and ZIP
+  exports, with no Lovable image-host dependency. The asset forwarding rule remains
+  available for other CDN assets that may be referenced later.
 - Private payment and database service credentials stay in Lovable Cloud. Cloud's
   managed service-role credential is not exportable, so this setup intentionally
   does **not** run privileged financial handlers directly in Vercel.
