@@ -9,8 +9,8 @@ let adminSection = 'overview';
 let adminUserQuery='';
 let adminNavCollapsed=false; try{adminNavCollapsed=localStorage.getItem('cryptonva_admin_nav')==='1'}catch(_){ }
 let adminCache = {plans:[],overview:null, users:[], withdrawals:[], kyc:[], audit:[], support:[]};
-const SUPABASE_URL = 'https://oadgehrzsbbkejywauug.supabase.co';
-const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_CcbuZ1DT3XLNMIES9M2vsg_QM8SX_pb';
+const SUPABASE_URL = 'https://rzydejxyogjunxvvgphb.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_p3miVi950SjX2ZlO5CAxKQ_LU23bxyd';
 let supabaseClient = null;
 function getSupabase(){ if(!supabaseClient && window.supabase?.createClient) supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY); return supabaseClient; }
 
