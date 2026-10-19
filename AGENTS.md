@@ -14,3 +14,4 @@
 - CN allocations use a separate read-only user reward ledger and a signup trigger, never the cash ledger; this prevents pre-launch rewards becoming spendable funds.
 - CN launch eligibility requires both persisted launch milestones; absent status defaults to locked to prevent premature withdrawal.
 - CN wallet presentation is scoped to the CN view with its own semantic CSS tokens; other legacy screens retain their existing styles and financial wiring.
+- External Vercel deployments use Nitro's Vercel preset and forward public API paths to the published Lovable service, while asset paths use the Lovable asset host; this preserves managed financial credentials and the unchanged legacy UI without exporting privileged keys.

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "installCommand": "bun install --frozen-lockfile",
+  "buildCommand": "bun run build",
+  "rewrites": [
+    {
+      "source": "/api/public/:path*",
+      "destination": "https://project--013d34d5-48dc-426b-96d5-e0c12eae4df0.lovable.app/api/public/:path*"
+    },
+    {
+      "source": "/__l5e/assets-v1/:path*",
+      "destination": "https://id-preview--013d34d5-48dc-426b-96d5-e0c12eae4df0.lovable.app/__l5e/assets-v1/:path*"
+    }
+  ]
+}
