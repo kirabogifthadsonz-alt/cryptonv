@@ -6,6 +6,8 @@
 - [x] Withdrawals paid out via Marz after admin approval (min set in admin)
 - [x] Referral links with live count + fixed bonus on friend's first deposit
 - [ ] Confirm referral bonus amount with owner (default 1 USD)
+- [ ] Prepare GitHub/Vercel deployment settings and image forwarding without changing the UI
+- [ ] Verify payment API communication and automated payment tests; live deposits/payouts require a controlled transaction
 - [x] Add CN tab, supplied images and rewards dashboard
 - [x] Award 800 CN per signup and keep CN separate from cash until TGE and CEX listing
 - [x] Verify CN rewards and tab on desktop and mobile
