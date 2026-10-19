@@ -1,4 +1,5 @@
 - [x] Switch backend to Lovable Cloud (schema, auth, sign-up without email confirmation)
+- [ ] Add home CN View navigation and current USD exchange-rate displays
 - [x] Remove demo/prototype labels, risk notices and "illustrative plan" disclaimers from the UI
 - [x] Make ceo@hadzgroup.cc admin
 - [x] Confirm the newly signed-up ceo@hadzgroup.cc account has admin access
