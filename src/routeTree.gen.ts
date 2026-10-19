@@ -10,33 +10,103 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiPublicInviteMessageRouteImport } from './routes/api/public/invite-message'
+import { Route as ApiPublicMarzCallbackRouteImport } from './routes/api/public/marz/callback'
+import { Route as ApiPublicPaymentsDepositRouteImport } from './routes/api/public/payments/deposit'
+import { Route as ApiPublicPaymentsPayoutRouteImport } from './routes/api/public/payments/payout'
+import { Route as ApiPublicPaymentsStatusRouteImport } from './routes/api/public/payments/status'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicInviteMessageRoute = ApiPublicInviteMessageRouteImport.update({
+  id: '/api/public/invite-message',
+  path: '/api/public/invite-message',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicMarzCallbackRoute = ApiPublicMarzCallbackRouteImport.update({
+  id: '/api/public/marz/callback',
+  path: '/api/public/marz/callback',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicPaymentsDepositRoute =
+  ApiPublicPaymentsDepositRouteImport.update({
+    id: '/api/public/payments/deposit',
+    path: '/api/public/payments/deposit',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicPaymentsPayoutRoute = ApiPublicPaymentsPayoutRouteImport.update({
+  id: '/api/public/payments/payout',
+  path: '/api/public/payments/payout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicPaymentsStatusRoute = ApiPublicPaymentsStatusRouteImport.update({
+  id: '/api/public/payments/status',
+  path: '/api/public/payments/status',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/api/public/invite-message': typeof ApiPublicInviteMessageRoute
+  '/api/public/marz/callback': typeof ApiPublicMarzCallbackRoute
+  '/api/public/payments/deposit': typeof ApiPublicPaymentsDepositRoute
+  '/api/public/payments/payout': typeof ApiPublicPaymentsPayoutRoute
+  '/api/public/payments/status': typeof ApiPublicPaymentsStatusRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/api/public/invite-message': typeof ApiPublicInviteMessageRoute
+  '/api/public/marz/callback': typeof ApiPublicMarzCallbackRoute
+  '/api/public/payments/deposit': typeof ApiPublicPaymentsDepositRoute
+  '/api/public/payments/payout': typeof ApiPublicPaymentsPayoutRoute
+  '/api/public/payments/status': typeof ApiPublicPaymentsStatusRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/api/public/invite-message': typeof ApiPublicInviteMessageRoute
+  '/api/public/marz/callback': typeof ApiPublicMarzCallbackRoute
+  '/api/public/payments/deposit': typeof ApiPublicPaymentsDepositRoute
+  '/api/public/payments/payout': typeof ApiPublicPaymentsPayoutRoute
+  '/api/public/payments/status': typeof ApiPublicPaymentsStatusRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/api/public/invite-message'
+    | '/api/public/marz/callback'
+    | '/api/public/payments/deposit'
+    | '/api/public/payments/payout'
+    | '/api/public/payments/status'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/api/public/invite-message'
+    | '/api/public/marz/callback'
+    | '/api/public/payments/deposit'
+    | '/api/public/payments/payout'
+    | '/api/public/payments/status'
+  id:
+    | '__root__'
+    | '/'
+    | '/api/public/invite-message'
+    | '/api/public/marz/callback'
+    | '/api/public/payments/deposit'
+    | '/api/public/payments/payout'
+    | '/api/public/payments/status'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ApiPublicInviteMessageRoute: typeof ApiPublicInviteMessageRoute
+  ApiPublicMarzCallbackRoute: typeof ApiPublicMarzCallbackRoute
+  ApiPublicPaymentsDepositRoute: typeof ApiPublicPaymentsDepositRoute
+  ApiPublicPaymentsPayoutRoute: typeof ApiPublicPaymentsPayoutRoute
+  ApiPublicPaymentsStatusRoute: typeof ApiPublicPaymentsStatusRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +118,51 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/invite-message': {
+      id: '/api/public/invite-message'
+      path: '/api/public/invite-message'
+      fullPath: '/api/public/invite-message'
+      preLoaderRoute: typeof ApiPublicInviteMessageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/marz/callback': {
+      id: '/api/public/marz/callback'
+      path: '/api/public/marz/callback'
+      fullPath: '/api/public/marz/callback'
+      preLoaderRoute: typeof ApiPublicMarzCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/payments/deposit': {
+      id: '/api/public/payments/deposit'
+      path: '/api/public/payments/deposit'
+      fullPath: '/api/public/payments/deposit'
+      preLoaderRoute: typeof ApiPublicPaymentsDepositRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/payments/payout': {
+      id: '/api/public/payments/payout'
+      path: '/api/public/payments/payout'
+      fullPath: '/api/public/payments/payout'
+      preLoaderRoute: typeof ApiPublicPaymentsPayoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/payments/status': {
+      id: '/api/public/payments/status'
+      path: '/api/public/payments/status'
+      fullPath: '/api/public/payments/status'
+      preLoaderRoute: typeof ApiPublicPaymentsStatusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ApiPublicInviteMessageRoute: ApiPublicInviteMessageRoute,
+  ApiPublicMarzCallbackRoute: ApiPublicMarzCallbackRoute,
+  ApiPublicPaymentsDepositRoute: ApiPublicPaymentsDepositRoute,
+  ApiPublicPaymentsPayoutRoute: ApiPublicPaymentsPayoutRoute,
+  ApiPublicPaymentsStatusRoute: ApiPublicPaymentsStatusRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

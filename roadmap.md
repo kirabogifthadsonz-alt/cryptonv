@@ -1,0 +1,22 @@
+- [x] Switch backend to Lovable Cloud (schema, auth, sign-up without email confirmation)
+- [x] Remove demo/prototype labels, risk notices and "illustrative plan" disclaimers from the UI
+- [x] Make ceo@hadzgroup.cc admin
+- [ ] Bring over existing users/data from the old database (needs export from Manus)
+- [x] Real deposits via Marz Pay (mobile money + card)
+- [x] Withdrawals paid out via Marz after admin approval (min set in admin)
+- [x] Referral links with live count + fixed bonus on friend's first deposit
+- [ ] Confirm referral bonus amount with owner (default 1 USD)
+- [x] Add CN tab, supplied images and rewards dashboard
+- [x] Award 800 CN per signup and keep CN separate from cash until TGE and CEX listing
+- [x] Verify CN rewards and tab on desktop and mobile
+- [x] Restyle CN dashboard to match the supplied wallet reference and verify its controls
+- [x] Admin-managed CN tasks (social proof + invite-investor), campaigns with leaderboards and per-rank prize pools
+- [x] CN rewards on earn plans, earn-plan task (linked plans, no expiry) and investment-count campaigns
+- [x] Show CN balance on the home dashboard (coin count, USD and local currency, compact one-line)
+- [x] Collapsible left navigation panel for the admin console (collapse/expand, remembers choice)
+- [x] Replace profile placeholders: password change, MFA, withdrawal PIN, login history, devices, documents, support
+- [x] Profile photo upload (avatars bucket, signed URLs) and top-right avatar links to Profile
+- [x] Admin sets plan ROI as daily %; app derives and shows per-day money earnings
+- [x] Invite tasks auto-count investing invitees and auto-reward at target (no proof/claim)
+- [x] Invitations by code only — removed invite URL/link sharing and ?ref= capture
+- [x] WhatsApp share promo lives in the CN tab as a Share & earn card (removed the on-open pop-up)

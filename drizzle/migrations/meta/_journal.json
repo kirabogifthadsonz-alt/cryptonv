@@ -1,0 +1,111 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1791473571234,
+      "tag": "0000_core_schema",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1791473631560,
+      "tag": "0001_investment_plans_payments_referrals",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1791473654992,
+      "tag": "0002_real_investments_and_plan_limits",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1791474231909,
+      "tag": "0003_make_ceo_admin",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1791474851225,
+      "tag": "0004_cn_signup_rewards",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1791477080335,
+      "tag": "0005_cn_tasks_campaigns",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1791478211929,
+      "tag": "0006_cn_campaign_capacity",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1791479185318,
+      "tag": "0007_cn_plan_rewards",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1791518758014,
+      "tag": "0008_profile_security",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1791600575571,
+      "tag": "0009_fix_pin_hash",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1791601099991,
+      "tag": "0010_profile_avatars",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1791601116750,
+      "tag": "0011_avatars_private_read",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1791686886493,
+      "tag": "0012_plan_roi_percent",
+      "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1791687072136,
+      "tag": "0013_cn_invite_auto_reward",
+      "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1791822935830,
+      "tag": "0014_cn_whatsapp_share",
+      "breakpoints": true
+    }
+  ]
+}
