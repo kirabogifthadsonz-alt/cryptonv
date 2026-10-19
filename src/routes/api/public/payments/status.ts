@@ -12,8 +12,12 @@ export const Route = createFileRoute("/api/public/payments/status")({
         const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
         const { data: tx } = await supabaseAdmin.from("payment_transactions").select("user_id").eq("id", id).maybeSingle();
         if (!tx || tx.user_id !== user.id) return json({ error: "Not found" }, 404);
-        const status = await syncPayment(id);
-        return json({ status });
+        try {
+          const status = await syncPayment(id);
+          return json({ status });
+        } catch {
+          return json({ error: "Payment confirmation is temporarily unavailable. Please check again." }, 503);
+        }
       },
     },
   },
