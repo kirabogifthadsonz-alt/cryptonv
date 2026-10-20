@@ -28,6 +28,8 @@ let cnError='';
 
 const CN_ICON_URL="/public/assets/cn-logo.jpg";
 const CN_COIN_URL="/public/assets/cn-coin.jpg";
+const WA_GROUP_URL="https://chat.whatsapp.com/K9DyjYzWErSFr0At6rzH7Z?s=cl&p=a&mlu=4&ilr=4";
+
 function cnValueUsd(coins,price){return Number(coins)*Number(price);}
 function cnWithdrawalReady(status){return status?.tge_completed===true&&status?.cex_listed===true;}
 async function loadCNRewards(){const sb=getSupabase();cnRewards=null;cnError='';if(!sb||!authState.user)return;try{const [{data,error},board]=await Promise.all([sb.rpc('my_cn_rewards'),sb.rpc('cn_board')]);if(error)throw error;cnRewards=data;cnBoard=board.data||{tasks:[],campaigns:[]};}catch(e){cnError='CN rewards could not be loaded. Please try again.';console.warn('CN rewards load failed',e);}}
@@ -45,6 +47,8 @@ function renderCN(){
  ${cnError?`<div class="cn-error" role="alert">${cnError} <button class="btn small" data-action="cn-refresh">Retry</button></div>`:''}
  <section class="section"><div class="section-heading"><h2>Rewards</h2><span class="cn-caption">${referralStats?.count||0} invited</span></div><div class="cn-reward-grid">${[['invite','Invitations','invite'],['task','Tasks','task'],['campaign','Campaigns','campaign']].map(([source,label,symbol])=>`<article class="cn-reward-tile"><div class="cn-tile-top"><span>${label}</span>${cnSymbol(symbol)}</div><strong>${r?amount(bySource(source)):'—'} <small>CN</small></strong><span class="cn-tile-value">${r?value(bySource(source)):'—'}</span><div class="cn-tile-footer">${source==='invite'?'Invite rewards':'No active '+(source==='task'?'tasks':'campaigns')}</div></article>`).join('')}</div></section>
  <section class="section cn-share-card"><div class="section-heading"><h2>Share & earn</h2>${cnSymbol('task')}</div>${cnShare?shareModalBody():''}${cnShare&&!cnShare.claimed?`<button class="btn whatsapp-btn cn-share-btn" data-action="wa-share">Share on WhatsApp</button>`:''}</section>
+ ${cnCommunityCard()}
+
  <section class="section"><div class="section-heading"><h2>My Assets</h2><span class="cn-asset-badge">CN</span></div><div class="cn-assets"><div class="cn-asset-row"><img src="${CN_COIN_URL}" alt="CN coin"><div><strong>CN</strong><span>CRYPTONVA</span></div><div class="cn-asset-value"><strong>${balance===null?'—':amount(balance)}</strong><span>${r?value(balance):'—'}</span></div></div><div class="cn-asset-row"><span class="cn-airdrop-icon">${cnSymbol('receive')}</span><div><strong>Welcome airdrop</strong><span>Signup reward</span></div><div class="cn-asset-value"><strong>${r?amount(bySource('signup')):'—'} CN</strong><span>${ready?'Allocated':'Locked'}</span></div></div></div><p class="cn-disclaimer">Stated reward value, not a cash balance or guaranteed listing price.</p></section>
   ${renderCNEarn()}
   <section class="section cn-launch"><div class="section-heading"><h2>Launch status</h2>${cnSymbol('lock')}</div><div class="cn-milestones"><span class="${r?.tge_completed?'completed':''}"><i></i>TGE <small>${r?.tge_completed?'Completed':'Pending'}</small></span><span class="${r?.cex_listed?'completed':''}"><i></i>CEX listing <small>${r?.cex_listed?'Completed':'Pending'}</small></span></div></section>
