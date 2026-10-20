@@ -28,6 +28,8 @@ let cnError='';
 
 const CN_ICON_URL="/public/assets/cn-logo.jpg";
 const CN_COIN_URL="/public/assets/cn-coin.jpg";
+const WA_GROUP_URL="https://chat.whatsapp.com/K9DyjYzWErSFr0At6rzH7Z?s=cl&p=a&mlu=4&ilr=4";
+
 function cnValueUsd(coins,price){return Number(coins)*Number(price);}
 function cnWithdrawalReady(status){return status?.tge_completed===true&&status?.cex_listed===true;}
 async function loadCNRewards(){const sb=getSupabase();cnRewards=null;cnError='';if(!sb||!authState.user)return;try{const [{data,error},board]=await Promise.all([sb.rpc('my_cn_rewards'),sb.rpc('cn_board')]);if(error)throw error;cnRewards=data;cnBoard=board.data||{tasks:[],campaigns:[]};}catch(e){cnError='CN rewards could not be loaded. Please try again.';console.warn('CN rewards load failed',e);}}
@@ -45,6 +47,8 @@ function renderCN(){
  ${cnError?`<div class="cn-error" role="alert">${cnError} <button class="btn small" data-action="cn-refresh">Retry</button></div>`:''}
  <section class="section"><div class="section-heading"><h2>Rewards</h2><span class="cn-caption">${referralStats?.count||0} invited</span></div><div class="cn-reward-grid">${[['invite','Invitations','invite'],['task','Tasks','task'],['campaign','Campaigns','campaign']].map(([source,label,symbol])=>`<article class="cn-reward-tile"><div class="cn-tile-top"><span>${label}</span>${cnSymbol(symbol)}</div><strong>${r?amount(bySource(source)):'—'} <small>CN</small></strong><span class="cn-tile-value">${r?value(bySource(source)):'—'}</span><div class="cn-tile-footer">${source==='invite'?'Invite rewards':'No active '+(source==='task'?'tasks':'campaigns')}</div></article>`).join('')}</div></section>
  <section class="section cn-share-card"><div class="section-heading"><h2>Share & earn</h2>${cnSymbol('task')}</div>${cnShare?shareModalBody():''}${cnShare&&!cnShare.claimed?`<button class="btn whatsapp-btn cn-share-btn" data-action="wa-share">Share on WhatsApp</button>`:''}</section>
+ ${cnCommunityCard()}
+
  <section class="section"><div class="section-heading"><h2>My Assets</h2><span class="cn-asset-badge">CN</span></div><div class="cn-assets"><div class="cn-asset-row"><img src="${CN_COIN_URL}" alt="CN coin"><div><strong>CN</strong><span>CRYPTONVA</span></div><div class="cn-asset-value"><strong>${balance===null?'—':amount(balance)}</strong><span>${r?value(balance):'—'}</span></div></div><div class="cn-asset-row"><span class="cn-airdrop-icon">${cnSymbol('receive')}</span><div><strong>Welcome airdrop</strong><span>Signup reward</span></div><div class="cn-asset-value"><strong>${r?amount(bySource('signup')):'—'} CN</strong><span>${ready?'Allocated':'Locked'}</span></div></div></div><p class="cn-disclaimer">Stated reward value, not a cash balance or guaranteed listing price.</p></section>
   ${renderCNEarn()}
   <section class="section cn-launch"><div class="section-heading"><h2>Launch status</h2>${cnSymbol('lock')}</div><div class="cn-milestones"><span class="${r?.tge_completed?'completed':''}"><i></i>TGE <small>${r?.tge_completed?'Completed':'Pending'}</small></span><span class="${r?.cex_listed?'completed':''}"><i></i>CEX listing <small>${r?.cex_listed?'Completed':'Pending'}</small></span></div></section>
@@ -252,7 +256,20 @@ function cnSafeLink(u){u=String(u||'').trim();return /^https?:\/\//i.test(u)?u:'
 function cnPrizeText(c,p){return c.prize_type==='cash'?`${Number(p).toLocaleString('en-US',{minimumFractionDigits:2})} USD`:`${Number(p).toLocaleString('en-US')} CN`;}
 function cnEnded(c){return new Date(c.ends_at).getTime()<=Date.now()||c.status==='paid';}
 function cnProofForm(attr,id){return `<form class="cn-proof-form" ${attr}="${id}"><input class="input" name="proof" placeholder="Paste proof link or describe what you did" maxlength="1000" required><button class="btn primary small" type="submit">Submit proof</button></form>`;}
-function cnOpenBtn(id,link){const l=cnSafeLink(link);if(!l)return '';return cnOpened.has(id)?'':`<button class="btn small" data-cn-open="${id}" data-link="${escapeHTML(l)}">Open challenge ↗</button>`;}
+function cnOpenBtn(id,link,label='Open challenge ↗',cls='btn small'){const l=cnSafeLink(link);if(!l)return '';return cnOpened.has(id)?'':`<button class="${cls}" data-cn-open="${id}" data-link="${escapeHTML(l)}">${label}</button>`;}
+function cnCommunityTask(){return (cnBoard&&cnBoard.tasks||[]).find(t=>t.kind==='social'&&String(t.link||'').trim()===WA_GROUP_URL)||null;}
+function cnCommunityCard(){
+ const t=cnCommunityTask();const reward=t?Number(t.reward_coins):0;
+ const badge=reward>0?`<span class="cn-asset-badge">+${reward.toLocaleString('en-US')} CN</span>`:'<span class="cn-asset-badge">Reward pending</span>';
+ const join=t?cnOpenBtn(t.id,t.link,'Join WhatsApp group ↗','btn whatsapp-btn'):`<a class="btn whatsapp-btn" href="${escapeHTML(WA_GROUP_URL)}" target="_blank" rel="noopener noreferrer">Join WhatsApp group ↗</a>`;
+ let action;
+ if(t&&(t.claimed||t.my_status==='approved'))action='<span class="cn-status ok">Approved · reward received</span>';
+ else if(t&&t.my_status==='pending')action='<span class="cn-status">Proof under review</span>';
+ else action=`${t&&t.my_status==='rejected'?'<span class="cn-status bad">Proof rejected · try again</span>':''}${join}${t&&(!cnSafeLink(t.link)||cnOpened.has(t.id))?cnProofForm('data-cn-task-proof',t.id):''}`;
+ const copy=reward>0?`Join the CRYPTONVA WhatsApp group to discover more opportunities. Submit proof that you joined and an admin confirms your ${reward.toLocaleString('en-US')} CN reward.`:'Join the CRYPTONVA WhatsApp group to discover more opportunities.';
+ return `<section class="section cn-community-card"><div class="section-heading"><h2>Join WhatsApp</h2>${badge}</div><article class="cn-item"><p>${escapeHTML(copy)}</p>${action}</article></section>`;
+}
+
 function renderCNEarn(){
  const b=cnBoard||{tasks:[],campaigns:[]};
  const task=t=>{let action='';if(t.kind==='invest'){action=`<small class="cn-caption">Start ${escapeHTML(cnPlanNames(t.plan_ids))} · no expiry</small>${t.claimed?'<span class="cn-status ok">Reward received</span>':t.eligible?`<button class="btn primary small" data-cn-claim="${t.id}">Claim ${Number(t.reward_coins).toLocaleString()} CN</button>`:'<button class="btn primary small" data-action="back-to-earn">Go to Earn plans</button>'}`;}
@@ -266,7 +283,7 @@ function renderCNEarn(){
   if(c.kind==='invest'){const tgt=Number(c.invest_target)||1,n=Math.min(Number(c.my_invest_count||0),tgt),per=Number(c.reward_coins)/tgt;const act=ended?`<span class="cn-status">${c.status==='paid'?'Ended · prizes paid':'Ended'}</span>`:n>=tgt?'<span class="cn-status ok">Target reached · all rewards received</span>':'<button class="btn primary small" data-action="back-to-earn">Invest in a plan</button>';return `<article class="cn-item"><div class="cn-item-head"><strong>${escapeHTML(c.title)}</strong><span class="cn-asset-badge">${ended?'Ended':'+'+Number(c.reward_coins).toLocaleString()+' CN'}</span></div><p>${escapeHTML(c.description)}</p><div class="cn-progress"><i style="width:${Math.round(n/tgt*100)}%"></i></div><small class="cn-caption">${n}/${tgt} investment plans · +${per.toLocaleString(undefined,{maximumFractionDigits:2})} CN per plan · ${escapeHTML(cnPlanNames(c.plan_ids))}${ended?'':' · ends '+new Date(c.ends_at).toLocaleDateString('en-US',{month:'short',day:'numeric'})}</small>${prizes?`<div class="cn-prizes">${prizes}</div>`:''}<h4 class="cn-lb-title">Leaderboard</h4><ol class="cn-leaders">${leaders}</ol>${act}</article>`;}
    const cap=Number(c.max_total_entries||0),full=cap>0&&Number(c.total_entries)>=cap;let action=ended?`<span class="cn-status">${c.status==='paid'?'Ended · prizes paid':'Ended · prizes pending'}</span>`:full?'<span class="cn-status bad">Campaign full · no new entries</span>':used>=c.max_participations?'<span class="cn-status">Participation limit reached</span>':`${cnOpenBtn(c.id,c.link)}${(!cnSafeLink(c.link)||cnOpened.has(c.id))?cnProofForm('data-cn-camp-proof',c.id):''}`;
   return `<article class="cn-item"><div class="cn-item-head"><strong>${escapeHTML(c.title)}</strong><span class="cn-asset-badge">${ended?'Ended':full?'Full':'Ends '+new Date(c.ends_at).toLocaleDateString('en-US',{month:'short',day:'numeric'})}</span></div><p>${escapeHTML(c.description)}</p><div class="cn-prizes">${prizes}</div><small class="cn-caption">Your entries: ${c.my_approved} approved · ${c.my_pending} pending · limit ${c.max_participations}${cap>0?` · ${Math.min(c.total_entries,cap)}/${cap} total entries`:''}</small><h4 class="cn-lb-title">Leaderboard</h4><ol class="cn-leaders">${leaders}</ol>${action}</article>`;};
- return `<section class="section"><div class="section-heading"><h2>Tasks</h2>${cnSymbol('task')}</div><div class="cn-items">${(b.tasks||[]).map(task).join('')||'<p class="helper">No active tasks right now.</p>'}</div></section>
+ return `<section class="section"><div class="section-heading"><h2>Tasks</h2>${cnSymbol('task')}</div><div class="cn-items">${(b.tasks||[]).filter(t=>String(t.link||'').trim()!==WA_GROUP_URL).map(task).join('')||'<p class="helper">No active tasks right now.</p>'}</div></section>
  <section class="section"><div class="section-heading"><h2>Campaigns</h2>${cnSymbol('campaign')}</div><div class="cn-items">${(b.campaigns||[]).map(camp).join('')||'<p class="helper">No campaigns right now.</p>'}</div></section>`;
 }
 async function loadAdminCN(){const sb=getSupabase();try{const [t,c,s]=await Promise.all([sb.from('cn_tasks').select('*').order('created_at',{ascending:false}),sb.from('cn_campaigns').select('*').order('created_at',{ascending:false}),sb.rpc('admin_list_cn_submissions')]);cnAdmin={tasks:t.data||[],campaigns:c.data||[],subs:s.data||[]};}catch(e){console.warn('CN admin load failed',e);}}
