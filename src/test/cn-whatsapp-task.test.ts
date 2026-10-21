@@ -49,7 +49,7 @@ describe('CN tab WhatsApp join reward', () => {
     const opened = new Set<string>(['wa-1']);
     const html = loadCnBoard({ tasks: [waTask], campaigns: [] }, opened).cnCommunityCard();
     expect(html).toContain('data-cn-task-proof="wa-1"');
-    expect(html).toContain('2000 CN reward');
+    expect(html).toContain('2,000 CN reward');
 
     const empty = loadCnBoard({ tasks: [], campaigns: [] }).cnCommunityCard();
     expect(empty).toContain('Reward pending');

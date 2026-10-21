@@ -26,3 +26,5 @@
 - [x] Invite tasks auto-count investing invitees and auto-reward at target (no proof/claim)
 - [x] Invitations by code only — removed invite URL/link sharing and ?ref= capture
 - [x] WhatsApp share promo lives in the CN tab as a Share & earn card (removed the on-open pop-up)
+- [ ] Put the WhatsApp join task (2000 CN, admin-confirmed proof) in both the CN tab and the home dashboard
+
