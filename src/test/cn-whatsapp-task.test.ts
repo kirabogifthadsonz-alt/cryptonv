@@ -22,6 +22,7 @@ const waTask = {
 function loadCnBoard(board: unknown, opened = new Set<string>()) {
   const ctx: Record<string, unknown> = {
     WA_GROUP_URL,
+    TELEGRAM_GROUP_URL: 'https://t.me/+hikEVTMoHiw0NWZk',
     cnOpened: opened,
     cnBoard: board,
     escapeHTML: (v: unknown) =>
