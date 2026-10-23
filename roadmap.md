@@ -27,4 +27,6 @@
 - [x] Invitations by code only — removed invite URL/link sharing and ?ref= capture
 - [x] WhatsApp share promo lives in the CN tab as a Share & earn card (removed the on-open pop-up)
 - [x] Put the WhatsApp join task (2000 CN, admin-confirmed proof) in both the CN tab and the home dashboard
+- [ ] Add Telegram group join beside WhatsApp on Home and CN
+- [ ] Assign drchappydmorris@gmail.com as subadmin, deny plans/campaigns/prices, and add owner-managed feature access
 

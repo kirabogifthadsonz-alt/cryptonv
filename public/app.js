@@ -29,6 +29,7 @@ let cnError='';
 const CN_ICON_URL="/public/assets/cn-logo.jpg";
 const CN_COIN_URL="/public/assets/cn-coin.jpg";
 const WA_GROUP_URL="https://chat.whatsapp.com/K9DyjYzWErSFr0At6rzH7Z?s=cl&p=a&mlu=4&ilr=4";
+const TELEGRAM_GROUP_URL="https://t.me/+hikEVTMoHiw0NWZk";
 
 function cnValueUsd(coins,price){return Number(coins)*Number(price);}
 function cnWithdrawalReady(status){return status?.tge_completed===true&&status?.cex_listed===true;}
@@ -267,8 +268,9 @@ function cnCommunityCard(){
  else if(t&&t.my_status==='pending')action='<span class="cn-status">Proof under review</span>';
  else action=`${t&&t.my_status==='rejected'?'<span class="cn-status bad">Proof rejected · try again</span>':''}${join}${t&&(!cnSafeLink(t.link)||cnOpened.has(t.id))?cnProofForm('data-cn-task-proof',t.id):''}`;
  const copy=reward>0?`Join the CRYPTONVA WhatsApp group to discover more opportunities. Submit proof that you joined and an admin confirms your ${reward.toLocaleString('en-US')} CN reward.`:'Join the CRYPTONVA WhatsApp group to discover more opportunities.';
- return `<section class="section cn-community-card"><div class="section-heading"><h2>Join WhatsApp</h2>${badge}</div><article class="cn-item"><p>${escapeHTML(copy)}</p>${action}</article></section>`;
+ return `<section class="section cn-community-card"><div class="section-heading"><h2>Join WhatsApp</h2>${badge}</div><article class="cn-item"><p>${escapeHTML(copy)}</p><div class="community-links">${action}${telegramJoinLink()}</div></article></section>`;
 }
+function telegramJoinLink(){return `<a class="btn telegram-btn" href="${TELEGRAM_GROUP_URL}" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">➤</span> Join Telegram group ↗</a>`;}
 function cnHomeCommunity(){
  const t=cnCommunityTask();const reward=t?Number(t.reward_coins):0;
  const icon='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a9 9 0 0 1-13.5 7.8L3 21l1.7-4.5A9 9 0 1 1 21 11.5Z"/><path d="M8 7c0 5 4 9 9 9l1-3-3-1-1 2c-2-1-3-2-4-4l2-1-1-3-3 1Z"/></svg>';
@@ -278,7 +280,7 @@ function cnHomeCommunity(){
  else if(t&&t.my_status==='pending')action='<span class="cn-status">Proof under review</span>';
  else action=`${t&&t.my_status==='rejected'?'<span class="cn-status bad">Proof rejected · try again</span>':''}${t?cnOpenBtn(t.id,t.link,label,'btn'):`<a class="btn" href="${escapeHTML(WA_GROUP_URL)}" target="_blank" rel="noopener noreferrer">${label}</a>`}${t&&(!cnSafeLink(t.link)||cnOpened.has(t.id))?cnProofForm('data-cn-task-proof',t.id):''}`;
  const copy=reward>0?`Join the group to discover more opportunities. Submit proof that you joined and an admin confirms your ${reward.toLocaleString('en-US')} CN reward.`:'Discover more opportunities with our community.';
- return `<section class="home-community" aria-label="CRYPTONVA community"><div><h2>Join WhatsApp${reward>0?` · earn ${reward.toLocaleString('en-US')} CN`:''}</h2><p>${escapeHTML(copy)}</p></div><div class="home-community-cta">${action}</div></section>`;
+ return `<section class="home-community" aria-label="CRYPTONVA community"><div><h2>Join WhatsApp${reward>0?` · earn ${reward.toLocaleString('en-US')} CN`:''}</h2><p>${escapeHTML(copy)}</p></div><div class="home-community-cta"><div class="community-links">${action}${telegramJoinLink()}</div></div></section>`;
 }
 
 

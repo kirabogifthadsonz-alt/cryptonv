@@ -120,6 +120,13 @@
       "when": 1792469508445,
       "tag": "0016_cn_whatsapp_join_task",
       "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1792725232765,
+      "tag": "0017_subadmin_feature_permissions",
+      "breakpoints": true
     }
   ]
 }

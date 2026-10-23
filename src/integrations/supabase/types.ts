@@ -38,6 +38,21 @@ export type Database = {
         }
         Relationships: []
       }
+      admin_feature_permissions: {
+        Row: {
+          feature: string
+          user_id: string
+        }
+        Insert: {
+          feature: string
+          user_id: string
+        }
+        Update: {
+          feature?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       admin_roles: {
         Row: {
           created_at: string
@@ -829,6 +844,14 @@ export type Database = {
           user_id: string
         }[]
       }
+      admin_list_subadmins: {
+        Args: never
+        Returns: {
+          email: string
+          features: string[]
+          user_id: string
+        }[]
+      }
       admin_list_support: {
         Args: never
         Returns: {
@@ -870,6 +893,7 @@ export type Database = {
         Args: { p_plan_id: string; p_position: number }
         Returns: undefined
       }
+      admin_my_access: { Args: never; Returns: Json }
       admin_overview: { Args: never; Returns: Json }
       admin_pay_cn_campaign: { Args: { p_campaign: string }; Returns: number }
       admin_review_cn_submission: {
@@ -890,6 +914,10 @@ export type Database = {
       }
       admin_set_setting: {
         Args: { p_key: string; p_value: number }
+        Returns: undefined
+      }
+      admin_set_subadmin_features: {
+        Args: { p_features: string[]; p_user_id: string }
         Returns: undefined
       }
       admin_set_user_restriction: {
@@ -937,6 +965,10 @@ export type Database = {
         Args: { p_request_id: string; p_success: boolean }
         Returns: undefined
       }
+      has_admin_feature: {
+        Args: { _feature: string; _uid: string }
+        Returns: boolean
+      }
       has_withdrawal_pin: { Args: never; Returns: boolean }
       is_admin: { Args: { _uid: string }; Returns: boolean }
       my_cn_rewards: { Args: never; Returns: Json }
@@ -956,6 +988,7 @@ export type Database = {
         }[]
       }
       record_login_event: { Args: { _device: string }; Returns: undefined }
+      require_admin_feature: { Args: { _feature: string }; Returns: undefined }
       set_withdrawal_pin: { Args: { _pin: string }; Returns: undefined }
       settle_my_cycles: { Args: never; Returns: undefined }
       start_investment: { Args: { p_plan_id: string }; Returns: undefined }
