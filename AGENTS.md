@@ -17,3 +17,4 @@
 - External Vercel deployments use Nitro's Vercel preset and forward public API paths to the published Lovable service, while asset paths use the Lovable asset host; this preserves managed financial credentials and the unchanged legacy UI without exporting privileged keys.
 - CN artwork is served from checked-in public/public/assets files, not CDN pointers; this keeps the original images portable with source ZIP exports like the home logo.
 - Local-currency display estimates load the public USD reference feed independently of persisted payment FX rates; this keeps current display values from altering financial settlement.
+- Delegated administrators use allowlisted features in a protected permissions table; SQL guards, write policies, and the payout endpoint enforce the same permissions before privileged actions, while full admins alone manage delegation.
