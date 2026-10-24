@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
+import { createClient } from "@supabase/supabase-js";
 import { MARZ_COUNTRIES, MarzRequestError, getUserFromRequest, json, marzPost, toE164 } from "@/lib/marz.server";
 
 // Admin approves a withdrawal: money is sent through Marz right away.
@@ -9,9 +10,16 @@ export const Route = createFileRoute("/api/public/payments/payout")({
       POST: async ({ request }) => {
         const user = await getUserFromRequest(request);
         if (!user) return json({ error: "Unauthorized" }, 401);
+        const url = process.env["SUPABASE_URL"];
+        const key = process.env["SUPABASE_PUBLISHABLE_KEY"];
+        if (!url || !key) return json({ error: "Authorization unavailable." }, 503);
+        const caller = createClient(url, key, {
+          auth: { persistSession: false, autoRefreshToken: false },
+          global: { headers: { Authorization: request.headers.get("authorization") || "" } },
+        });
+        const { data: allowed, error: accessError } = await caller.rpc("has_admin_feature", { _uid: user.id, _feature: "payouts" });
+        if (accessError || allowed !== true) return json({ error: "Payout access required." }, 403);
         const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-        const { data: role } = await supabaseAdmin.from("admin_roles").select("role").eq("user_id", user.id).maybeSingle();
-        if (!role) return json({ error: "Administrator access required." }, 403);
         const parsed = z.object({ request_id: z.string().uuid() }).safeParse(await request.json().catch(() => null));
         if (!parsed.success) return json({ error: "Bad request" }, 400);
 
