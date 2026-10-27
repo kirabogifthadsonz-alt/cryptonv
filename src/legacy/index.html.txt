@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="/app.css?v=20261019-cn-view-fx" />
+    <link rel="stylesheet" href="/app.css?v=20261027-steady-nav" />
     <meta property="og:title" content="CRYPTONVA — Invest in the digital future" />
     <meta property="og:description" content="Investment plans, wallet activity and CN rewards." />
     <meta property="og:type" content="website" />
