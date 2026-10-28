@@ -29,4 +29,6 @@
 - [x] Put the WhatsApp join task (2000 CN, admin-confirmed proof) in both the CN tab and the home dashboard
 - [x] Add Telegram group join beside WhatsApp on Home and CN
 - [x] Assign drchappydmorris@gmail.com as subadmin, deny plans/campaigns/prices, and add owner-managed feature access
+- [x] Redesign admin console to match supplied desktop/mobile references, preserving operations and permissions
+- [ ] Verify redesigned admin console with a real admin session (needs owner's sign-in; layout and navigation checked with isolated sample data)
 

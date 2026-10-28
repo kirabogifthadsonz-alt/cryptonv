@@ -10,7 +10,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="/app.css?v=20261027-steady-nav" />
+    <link rel="stylesheet" href="/app.css?v=20261027-admin-console" />
+    <link rel="stylesheet" href="/admin-ui.css?v=20261027-admin-console" />
     <meta property="og:title" content="CRYPTONVA — Invest in the digital future" />
     <meta property="og:description" content="Investment plans, wallet activity and CN rewards." />
     <meta property="og:type" content="website" />
@@ -46,6 +47,6 @@
       <button class="mobile-nav-item" data-nav="profile"><span class="nav-icon">◉</span><span>Profile</span></button>
     </nav>
     <div id="modal-root"></div>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script><script src="/app.js?v=20261020-cn-wa-task" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script><script src="/admin-ui.js?v=20261027-admin-console" defer></script><script src="/app.js?v=20261027-admin-console" defer></script>
   </body>
 </html>
