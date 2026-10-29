@@ -19,7 +19,34 @@ function adminDashboard(o){
  const actions=[['users','Manage Users','View and manage accounts','blue'],['withdrawals','Process Withdrawals','Review pending requests','green'],['kyc','Review KYC','Verify user documents','gold'],['payouts','View Payout Queue','Manage scheduled payouts','violet'],['cn','Tasks & Campaigns','Manage CN rewards','violet'],['settings','Payment Settings','Rates and referral rewards','gold']].filter(a=>adminSectionAllowed(a[0]));
  return `<div class="admin-metrics">${tile('Total Users',o.users??0,'users','blue','Registered accounts')}${tile('Total Deposits',adminMoney(o.total_deposits_cents),'withdrawals','green','Posted ledger deposits')}${tile('Pending Withdrawals',o.pending_withdrawals??0,'payouts','gold','Awaiting decision')}${tile('KYC Pending',o.pending_kyc??0,'kyc','rose','Awaiting compliance review')}</div><div class="admin-dashboard-grid">${adminTrendChart()}<section class="admin-widget admin-quick"><div class="admin-widget-heading"><h2>Quick Actions</h2></div><div class="admin-quick-grid">${actions.map(([key,title,caption,tone])=>`<button class="btn admin-quick-action" data-admin-section="${key}"><span class="admin-action-icon ${tone}">${adminSymbol(key)}</span><span><strong>${title}</strong><small>${caption}</small></span>${adminSymbol('arrow')}</button>`).join('')}</div></section><section class="admin-widget admin-recent"><div class="admin-widget-heading"><h2>Recent Withdrawals</h2>${adminSectionAllowed('withdrawals')?'<button class="text-link" data-admin-section="withdrawals">View All →</button>':''}</div><div class="table-wrap"><table class="admin-table"><thead><tr><th>User</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead><tbody>${adminCache.withdrawals.slice(0,5).map(w=>`<tr><td><span class="admin-user-dot">${adminSymbol('users')}</span>${escapeHTML(w.email||'—')}</td><td>${adminMoney(w.amount_cents)}</td><td>${adminStatus(w.status)}</td><td>${new Date(w.requested_at).toLocaleDateString()}</td></tr>`).join('')||'<tr><td colspan="4" class="empty-state">No withdrawals yet.</td></tr>'}</tbody></table></div></section><section class="admin-widget admin-activity"><div class="admin-widget-heading"><h2>System Activity</h2>${adminSectionAllowed('audit')?'<button class="text-link" data-admin-section="audit">View All →</button>':''}</div>${adminCache.audit.slice(0,5).map(x=>`<div class="admin-activity-row"><span class="admin-action-icon green">${adminSymbol('audit')}</span><span><strong>${escapeHTML(x.action)}</strong><small>${escapeHTML(x.target_reference||x.target_user_id||'')}</small></span><time>${new Date(x.created_at).toLocaleDateString()}</time></div>`).join('')||'<div class="empty-state">No recent activity.</div>'}</section></div><div class="admin-finance-strip"><div>${adminSymbol('withdrawals')}<span>Total paid out<strong>${adminMoney(o.total_withdrawals_cents)}</strong></span></div><div>${adminSymbol('payouts')}<span>Pending to pay<strong>${adminMoney(o.pending_withdrawals_cents)}</strong></span></div><div>${adminSymbol('restrictions')}<span>Restricted users<strong>${o.restricted_users??0}</strong></span></div></div>`;
 }
+function adminSectionPresentation(body){
+ const template=document.createElement('template');template.innerHTML=body;
+ template.content.querySelectorAll('.admin-panel').forEach(panel=>{
+  panel.classList.add('admin-section');
+  const heading=panel.querySelector('h2');
+  if(heading){const mark=document.createElement('span');mark.className='admin-section-icon';mark.innerHTML=adminSymbol(adminSection);heading.prepend(mark);}
+ });
+ template.content.querySelectorAll('.admin-table').forEach(table=>{
+  const headings=Array.from(table.querySelectorAll('thead th'),th=>th.textContent.trim());
+  table.classList.add(adminSection==='plans'?'admin-wide-table':'admin-record-table');
+  table.querySelectorAll('tbody tr').forEach(row=>{
+   Array.from(row.children).forEach((cell,i)=>{
+    cell.dataset.label=headings[i]||'Action';
+    if(cell.colSpan>1){cell.classList.add('admin-empty-cell');return;}
+    if(/^(status|kyc|account status)$/i.test(headings[i])&&!cell.querySelector('button,input,a')){
+     const value=cell.textContent.trim(),state=value.toLowerCase();
+     const badge=document.createElement('span');badge.className='admin-state';
+     if(['approved','paid','active','verified','visible','completed','resolved'].includes(state))badge.classList.add('approved');
+     else if(['failed','rejected','suspended','restricted','closed','hidden'].includes(state))badge.classList.add('rejected');
+     badge.textContent=value;cell.replaceChildren(badge);
+    }
+   });
+  });
+ });
+ return template.innerHTML;
+}
 function adminConsoleShell(tabs,body){
+ body=adminSectionPresentation(body);
  const label=adminSection==='overview'?'Dashboard':tabs.find(t=>t[0]===adminSection)?.[1]||'Admin Console';
  const badge=key=>{const n=key==='withdrawals'?adminCache.overview?.pending_withdrawals:key==='kyc'?adminCache.overview?.pending_kyc:key==='payouts'?adminCache.withdrawals.filter(w=>w.status==='approved').length:0;return n?`<b class="admin-nav-count">${Number(n)}</b>`:'';};
  const nav=t=>`<button class="admin-side-item ${adminSection===t[0]?'active':''}" data-admin-section="${t[0]}" title="${t[1]}">${adminSymbol(t[0])}<span>${t[0]==='overview'?'Dashboard':t[1]}</span>${badge(t[0])}</button>`;

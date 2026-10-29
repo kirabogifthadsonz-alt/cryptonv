@@ -30,5 +30,6 @@
 - [x] Add Telegram group join beside WhatsApp on Home and CN
 - [x] Assign drchappydmorris@gmail.com as subadmin, deny plans/campaigns/prices, and add owner-managed feature access
 - [x] Redesign admin console to match supplied desktop/mobile references, preserving operations and permissions
+- [x] Extend the shared admin design to every navigation tab and its dialogs; verify desktop/mobile without live writes
 - [ ] Verify redesigned admin console with a real admin session (needs owner's sign-in; layout and navigation checked with isolated sample data)
 

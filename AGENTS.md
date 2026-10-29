@@ -10,7 +10,7 @@
 <!-- LOVABLE:END -->
 
 - The CRYPTONVA app (migrated from Manus) is served verbatim: `/` returns src/legacy/index.html.txt from a server handler, with public/app.js and public/app.css. Why: the user requires the UI to stay exactly as built.
-- Admin presentation is isolated in public/admin-ui.js and public/admin-ui.css, using existing cached data and delegated event attributes; this keeps the redesigned console separate from investor screens and financial authorization.
+- Admin presentation, including every section's table layout and admin-mode dialogs, is isolated in public/admin-ui.js and public/admin-ui.css; decorate existing markup without changing delegated event attributes or access filtering to keep investor screens and financial authorization unchanged.
 
 - CN allocations use a separate read-only user reward ledger and a signup trigger, never the cash ledger; this prevents pre-launch rewards becoming spendable funds.
 - CN launch eligibility requires both persisted launch milestones; absent status defaults to locked to prevent premature withdrawal.
